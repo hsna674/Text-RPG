@@ -1,4 +1,5 @@
 {
-    "textSpeed": 0.1,
-    "appName": "TextRPG"
+    "textSpeed": 0.05,
+    "appName": "TextRPG",
+    "titleColor": "red"
 }

@@ -35,26 +35,22 @@ def blockLetters(text):
 def clearScreen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def selectionScreen(title, selections, functions, *previousPageFunction, inputText="Enter your choice: ", previousPage=True, color="white", inputTextColor="white"):
-    if color.startswith("#") and len(color) == 7:
-        color_code = f"\033[38;2;{int(color[1:3], 16)};{int(color[3:5], 16)};{int(color[5:], 16)}m"
+def selectionScreen(title, selections, functions, *previousPageFunction, inputText="Enter your choice: ", previousPage=True, color="white", inputTextColor="white", titleColor="white", previousTextColor="white"):
+    if titleColor.startswith("#") and len(titleColor) == 7:
+        title_color_code = f"\033[38;2;{int(titleColor[1:3], 16)};{int(titleColor[3:5], 16)};{int(titleColor[5:], 16)}m"
     else:
-        color_code = getattr(colors, color.upper(), colors.WHITE)
+        title_color_code = getattr(colors, titleColor.upper(), colors.WHITE)
 
-    if inputTextColor.startswith("#") and len(inputTextColor) == 7:
-        inputText_color_code = f"\033[38;2;{int(inputTextColor[1:3], 16)};{int(inputTextColor[3:5], 16)};{int(inputTextColor[5:], 16)}m"
-    else:
-        inputText_color_code = getattr(colors, inputTextColor.upper(), colors.WHITE)
-
-    print(title)
+    print(title_color_code + title + colors.RESET)
 
     for i, option in enumerate(selections):
-        print(f"{color_code + str(i + 1)}. {option + colors.RESET}")
+        typeWrite(f"{str(i + 1)}. {option}", color=color)
         if previousPage:
-            print("B. Previous Page")
+            typeWrite("B. Previous Page", color=previousTextColor)
     while True:
         try:
-            choice = input("\n" + inputText_color_code + inputText + colors.RESET)
+            typeWrite("\n" + inputText, inputTextColor)
+            choice = input()
             if choice == "b".casefold():
                 previousPageFunction[0]()
                 break
@@ -62,6 +58,6 @@ def selectionScreen(title, selections, functions, *previousPageFunction, inputTe
                 functions[int(choice) - 1]()
                 break
             else:
-                print("Invalid choice. Please enter a number corresponding to the options.")
+                typeWrite("Invalid choice. Please enter a number corresponding to the options.")
         except ValueError:
-            print("Invalid input. Please enter a number.")
+            typeWrite("Invalid input. Please enter a number.")

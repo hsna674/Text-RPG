@@ -9,14 +9,14 @@ class Main:
     
     def main(self):
         clearScreen()
-        printBlockLetters(APP_NAME)
-        selectionScreen("", 
+        selectionScreen(blockLetters(APP_NAME), 
                         ["New game", "Continue Game", "Settings"], 
                         [self.newGame, self.continueGame, self.settings], 
                         inputText="How would you like to proceed: ", 
                         previousPage=False, 
                         color="green",
-                        inputTextColor="#438525"
+                        inputTextColor="yellow",
+                        titleColor=TITLE_COLOR
                         )
         
     def changeTextSpeed(self):
@@ -43,7 +43,14 @@ class Main:
 
     def settings(self):
         clearScreen()
-        selectionScreen("Settings: ", ["Change Text Speed"], [self.changeTextSpeed], self.main)
+        selectionScreen("Settings: ", 
+                        ["Change Text Speed"], 
+                        [self.changeTextSpeed], 
+                        self.main, 
+                        titleColor=TITLE_COLOR,
+                        color="green",
+                        inputTextColor="yellow"
+                        )
 
 if __name__ == "__main__":
     Main()
