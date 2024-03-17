@@ -1,4 +1,5 @@
 import sys
+import os
 import time
 from art import text2art
 
@@ -33,5 +34,26 @@ def typeWrite(text, color="white", speed=0.1):
         time.sleep(speed)
     print()
 
-def blockLetters(text):
+def printBlockLetters(text):
     print(text2art(text=text))
+
+def blockLetters(text):
+    return text2art(text=text)
+
+def clearScreen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def selectionScreen(title, selections, functions):
+    print(title)
+    for i, option in enumerate(selections):
+        print(f"{i+1}. {option}")
+    while True:
+        try:
+            choice = int(input("Enter your choice: ")) - 1
+            if 0 <= choice < len(selections):
+                functions[choice]()
+                break
+            else:
+                print("Invalid choice. Please enter a number corresponding to the options.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")

@@ -1,6 +1,4 @@
 import sys
+from functions import *
 sys.dont_write_bytecode = True
 
-from functions import typeWrite, blockLetters
-
-blockLetters("Hello")
