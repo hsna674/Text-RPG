@@ -1,10 +1,14 @@
 import sys
+import os
+import time
 from functions import *
 sys.dont_write_bytecode = True
 from settings import *
 
 class Main:
     def __init__(self) -> None:
+        if not os.path.exists("saves"):
+            os.makedirs("saves")
         self.main()
     
     def main(self):
@@ -39,7 +43,14 @@ class Main:
         pass
 
     def continueGame(self):
-        pass
+        if not os.listdir("saves"):
+            clearScreen()
+            typeWrite("No save files found!", color="red")
+            time.sleep(3)
+            self.main()
+        else:
+            clearScreen()
+            typeWrite("Loading Save...", color="green")
 
     def settings(self):
         clearScreen()
