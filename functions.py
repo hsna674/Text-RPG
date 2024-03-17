@@ -35,7 +35,8 @@ def blockLetters(text):
 def clearScreen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def selectionScreen(title, selections, functions, *previousPageFunction, inputText="Enter your choice: ", previousPage=True, color="white", inputTextColor="white", titleColor="white", previousTextColor="white"):
+def selectionScreen(title, selections, functions, *previousPageFunction, inputText="Enter your choice: ", 
+                    previousPage=True, color="white", inputTextColor="white", titleColor="white", previousTextColor="white"):
     if titleColor.startswith("#") and len(titleColor) == 7:
         title_color_code = f"\033[38;2;{int(titleColor[1:3], 16)};{int(titleColor[3:5], 16)};{int(titleColor[5:], 16)}m"
     else:
