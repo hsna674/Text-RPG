@@ -2,6 +2,7 @@ import sys
 import os
 import time
 from art import text2art
+from settings import *
 
 class colors:
     RED = '\033[91m'
@@ -13,23 +14,14 @@ class colors:
     WHITE = '\033[97m'
     RESET = '\033[0m'
 
-def typeWrite(text, color="white", speed=0.1):
+def typeWrite(text, color="white", speed=TEXT_SPEED):
+    if color.startswith("#") and len(color) == 7:
+        color_code = f"\033[38;2;{int(color[1:3], 16)};{int(color[3:5], 16)};{int(color[5:], 16)}m"
+    else:
+        color_code = getattr(colors, color.upper(), colors.WHITE)
+    
     for char in text:
-        if color.casefold() == "red":
-            sys.stdout.write(colors.RED + char + colors.RESET)
-        elif color.casefold() == "green":
-            sys.stdout.write(colors.GREEN + char + colors.RESET)
-        elif color.casefold() == "yellow":
-            sys.stdout.write(colors.YELLOW + char + colors.RESET)
-        elif color.casefold() == "blue":
-            sys.stdout.write(colors.BLUE + char + colors.RESET)
-        elif color.casefold() == "magenta":
-            sys.stdout.write(colors.MAGENTA + char + colors.RESET)
-        elif color.casefold() == "cyan":
-            sys.stdout.write(colors.CYAN + char + colors.RESET)
-        else:
-            sys.stdout.write(colors.WHITE + char + colors.RESET)
-
+        sys.stdout.write(color_code + char + colors.RESET)
         sys.stdout.flush()
         time.sleep(speed)
     print()
@@ -43,15 +35,31 @@ def blockLetters(text):
 def clearScreen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def selectionScreen(title, selections, functions):
+def selectionScreen(title, selections, functions, *previousPageFunction, inputText="Enter your choice: ", previousPage=True, color="white", inputTextColor="white"):
+    if color.startswith("#") and len(color) == 7:
+        color_code = f"\033[38;2;{int(color[1:3], 16)};{int(color[3:5], 16)};{int(color[5:], 16)}m"
+    else:
+        color_code = getattr(colors, color.upper(), colors.WHITE)
+
+    if inputTextColor.startswith("#") and len(inputTextColor) == 7:
+        inputText_color_code = f"\033[38;2;{int(inputTextColor[1:3], 16)};{int(inputTextColor[3:5], 16)};{int(inputTextColor[5:], 16)}m"
+    else:
+        inputText_color_code = getattr(colors, inputTextColor.upper(), colors.WHITE)
+
     print(title)
+
     for i, option in enumerate(selections):
-        print(f"{i+1}. {option}")
+        print(f"{color_code + str(i + 1)}. {option + colors.RESET}")
+        if previousPage:
+            print("B. Previous Page")
     while True:
         try:
-            choice = int(input("Enter your choice: ")) - 1
-            if 0 <= choice < len(selections):
-                functions[choice]()
+            choice = input("\n" + inputText_color_code + inputText + colors.RESET)
+            if choice == "b".casefold():
+                previousPageFunction[0]()
+                break
+            elif 0 <= int(choice) - 1 < len(selections):
+                functions[int(choice) - 1]()
                 break
             else:
                 print("Invalid choice. Please enter a number corresponding to the options.")
