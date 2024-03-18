@@ -44,6 +44,8 @@ class Main:
         typeWrite("Welcome to Arvendal, a realm cloaked in mystery and danger.\nIn this text-based RPG, you'll embark on a journey through\ntreacherous landscapes, encountering allies and adversaries\nalike. Will you embrace the path of a valiant knight or wield\nthe arcane arts as a powerful sorcerer? The fate of Arvendal\nlies in your hands. Dare to embark on this enigmatic quest\nand uncover the secrets that await you.", color="cyan")
         typeWrite("\nWhat shall your character be known as: ")
         self.name = input()
+        saveData("saves/temp.json", self.name, "Name")
+        
 
     def continueGame(self):
         if not os.listdir("saves"):

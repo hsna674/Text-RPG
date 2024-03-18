@@ -62,3 +62,12 @@ def selectionScreen(title, selections, functions, *previousPageFunction, inputTe
                 typeWrite("Invalid choice. Please enter a number corresponding to the options.")
         except ValueError:
             typeWrite("Invalid input. Please enter a number.")
+
+def saveData(saveFile, saveData, key):
+    with open(saveFile, "r") as f:
+        data = json.load(f)
+
+    data[key] = saveData
+
+    with open(saveFile, "w") as f:
+        json.dump(data, f, indent=4)
